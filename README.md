@@ -1,9 +1,6 @@
 <h1 align="center">Connector Express</h1>
 <p align="center">Resolvendo o problema dos conectores mínimos com o algoritmo de Kruskal</p>
 
-## Sobre
-Projeto final da disciplina de Teoria dos grafos ministrada pela Profª. Drª. [Raquel Cabral](http://lattes.cnpq.br/0319343616289472)
-
 ## Requisitos
 * [python-igraph](https://igraph.org/python/)
 

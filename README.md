@@ -1,4 +1,4 @@
-# Connector Express
+# Connect
 **Resolvendo o problema dos conectores mínimos com o algoritmo de Kruskal**
 
 ## Tecnologias usadas

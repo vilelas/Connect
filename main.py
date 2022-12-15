@@ -2,20 +2,30 @@ from algorithm.kruskal import Graph
 from utils.read_file import read_file
 from utils.plot_graph import plot_graph
 
-matriz = read_file(r"data\SH07.txt")
+# Lê a matriz a partir do arquivo
+matrix = read_file(r"data\SH07.txt")
 
-g = Graph(len(matriz))
+# Cria um objeto do tipo Graph
+g = Graph(len(matrix))
 
-# lista_arestas = []
-# lista_pesos = []
-# lista_vertice = [str(i)  for i in range(0, len(matriz))]
+# Inicializa listas para armazenar as arestas, pesos e vértices
+edges = []
+weights = []
+vertices = [str(i) for i in range(len(matrix))]
 
-for i in range(len(matriz)):
-    for j in range(len(matriz[i])):
+# Adiciona as arestas ao grafo e às listas
+for i in range(len(matrix)):
+    for j in range(len(matrix[i])):
+        # Adiciona apenas as arestas que estão na parte superior da matriz
+        # (para evitar adicionar arestas duplicadas)
         if j > i:
-            g.addEdge(i,j,round(float(matriz[i][j])))
-            # lista_arestas.append((i, j))
-            # lista_pesos.append(round(float(matriz[i][j])))
-g.KruskalMST()
+            g.add_edge(i, j, round(float(matrix[i][j])))
+            edges.append((i, j))
+            weights.append(round(float(matrix[i][j])))
 
-# plot_graph("grafo", lista_arestas, len(matriz), lista_pesos, lista_vertice)
+# Calcula a árvore geradora mínima
+g.kruskal_mst()
+g.view_mst()
+
+# Plota o gráfico
+plot_graph("grafo", edges, len(matrix), weights, vertices)

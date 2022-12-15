@@ -1,90 +1,76 @@
 class Graph:
-	def __init__(self, vertices):
-		self.V = vertices # No. of vertices
-		self.graph = [] # default dictionary
-		# to store graph
+    def __init__(self, num_vertices):
+        # Número de vértices do grafo
+        self.num_vertices = num_vertices
+        self.result = [] 
 
-	# function to add an edge to graph
-	def addEdge(self, u, v, w):
-		self.graph.append([u, v, w])
+        # Lista de arestas do grafo
+        self.edges = []
 
-	# A utility function to find set of an element i
-	# (uses path compression technique)
-	def find(self, parent, i):
-		if parent[i] == i:
-			return i
-		return self.find(parent, parent[i])
+    # Adiciona uma aresta ao grafo
+    def add_edge(self, u, v, w):
+        self.edges.append([u, v, w])
 
-	# A function that does union of two sets of x and y
-	# (uses union by rank)
-	def union(self, parent, rank, x, y):
-		xroot = self.find(parent, x)
-		yroot = self.find(parent, y)
+    # Encontra o conjunto de um elemento i
+    # (utiliza técnica de compressão de caminho)
+    def find(self, parent, i):
+        if parent[i] == i:
+            return i
+        return self.find(parent, parent[i])
 
-		# Attach smaller rank tree under root of
-		# high rank tree (Union by Rank)
-		if rank[xroot] < rank[yroot]:
-			parent[xroot] = yroot
-		elif rank[xroot] > rank[yroot]:
-			parent[yroot] = xroot
+    # Realiza a união de dois conjuntos de x e y
+    # (utiliza união por classificação)
+    def union(self, parent, rank, x, y):
+        xroot = self.find(parent, x)
+        yroot = self.find(parent, y)
 
-		# If ranks are same, then make one as root
-		# and increment its rank by one
-		else:
-			parent[yroot] = xroot
-			rank[xroot] += 1
+        # Anexa a árvore de menor classificação sob a raiz da
+        # árvore de alta classificação (união por classificação)
+        if rank[xroot] < rank[yroot]:
+            parent[xroot] = yroot
+        elif rank[xroot] > rank[yroot]:
+            parent[yroot] = xroot
 
-	# The main function to construct MST using Kruskal's
-		# algorithm
-	def KruskalMST(self):
+        # Se as classificações são iguais, então faz com que um seja raiz
+        # e incrementa sua classificação em um
+        else:
+            parent[yroot] = xroot
+            rank[xroot] += 1
 
-		result = [] # This will store the resultant MST
-		
-		# An index variable, used for sorted edges
-		i = 0
-		
-		# An index variable, used for result[]
-		e = 0
+    # Constroi a MST utilizando o algoritmo de Kruskal
+    def kruskal_mst(self):
+        # Ordena as arestas pelo seu peso
+        self.edges = sorted(self.edges, key=lambda edge: edge[2])
 
-		# Step 1: Sort all the edges in
-		# non-decreasing order of their
-		# weight. If we are not allowed to change the
-		# given graph, we can create a copy of graph
-		self.graph = sorted(self.graph,
-							key=lambda item: item[2])
+        # Inicializa a lista de pais e a lista de ranques com valores iniciais
+        parent = list(range(self.num_vertices))
+        rank = [0] * self.num_vertices
 
-		parent = []
-		rank = []
+        e = 0  # Contador de arestas selecionadas
+        i = 0  # Índice da aresta atual
 
-		# Create V subsets with single elements
-		for node in range(self.V):
-			parent.append(node)
-			rank.append(0)
+        # Enquanto ainda não selecionamos todas as arestas
+        while e < self.num_vertices - 1:
+            # Pega a próxima aresta
+            u, v, w = self.edges[i]
+            i += 1
 
-		# Number of edges to be taken is equal to V-1
-		while e < self.V - 1:
+            # Encontra os pais de cada vértice da aresta
+            x = self.find(parent, u)
+            y = self.find(parent, v)
 
-			# Step 2: Pick the smallest edge and increment
-			# the index for next iteration
-			u, v, w = self.graph[i]
-			i = i + 1
-			x = self.find(parent, u)
-			y = self.find(parent, v)
+            # Se os pais forem diferentes, significa que a aresta não forma um ciclo
+            # então adicionamos à MST e unimos os conjuntos de vértices
+            if x != y:
+                e += 1
+                self.result.append([u, v, w])
+                self.union(parent, rank, x, y)
 
-			# If including this edge doesn't
-			# cause cycle, include it in result
-			# and increment the indexof result
-			# for next edge
-			if x != y:
-				e = e + 1
-				result.append([u, v, w])
-				self.union(parent, rank, x, y)
-			# Else discard the edge
-
-		minimumCost = 0
-		print("A seguir estão as arestas da MST gerada")
-		for u, v, weight in result:
-			minimumCost += weight
-			print(f"{u} -- {v} ==  {weight}")
-		print(f"Peso da árvore geradora mínima é: {minimumCost}")
-	
+    def view_mst(self):
+        minimum_cost = 0
+        print("A seguir estão as arestas da MST gerada:")
+        for edge in self.result:
+            u, v, weight = edge
+            minimum_cost += weight
+            print(f"{u} -- {v} ==  {weight}")
+        print(f"Peso da árvore geradora mínima é: {minimum_cost}")

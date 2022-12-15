@@ -1,10 +1,10 @@
-## Connector Express
-> Resolvendo o problema dos conectores mínimos com o algoritmo de Kruskal
+# Connect
+**Resolvendo o problema dos conectores mínimos com o algoritmo de Kruskal**
 
-### Requisitos
+## Tecnologias usadas
 * [python-igraph](https://igraph.org/python/)
 
-### Como executar esse projeto:
+## Como executar esse projeto:
 
 Instale todas as dependências com o pip:
 
@@ -14,7 +14,7 @@ No diretório do projeto, execute o arquivo principal:
 
 ### `main.py`
 
-### Bases de dados
+## Bases de dados
 As bases de dados utilizadas para solução do problema do conector mínimo foram retiradas do [*The Department Of Scientific Computing*](https://people.sc.fsu.edu/~jburkardt/datasets/cities/cities.html), são elas:
  - [*SH07*](https://people.sc.fsu.edu/~jburkardt/datasets/cities/sh07_dist.txt);
  - [*SP11*](https://people.sc.fsu.edu/~jburkardt/datasets/cities/sp11_dist.txt);
